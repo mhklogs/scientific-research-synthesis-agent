@@ -1,0 +1,6 @@
+{
+  "name": "Research & Synthesis Agent",
+  "description": "An elite AI-powered market research, technical strategy, and investigative synthesis platform leveraging search grounding to produce structured, zero-fluff briefings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
