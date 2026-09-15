@@ -71,12 +71,18 @@ const PRESEEDED_SAMPLE: ResearchBrief = {
 };
 
 export default function App() {
+  const initialTopic =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("topic") || undefined
+      : undefined;
+
   const [history, setHistory] = useState<ResearchBrief[]>([]);
   const [activeBrief, setActiveBrief] = useState<ResearchBrief | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingTopic, setPendingTopic] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState("");
+  const [apiConfigured, setApiConfigured] = useState<boolean | null>(null);
 
   // Initialize and synchronize history
   useEffect(() => {
@@ -107,6 +113,13 @@ export default function App() {
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
+
+    // Surface graceful setup status when the Gemini API key is not configured
+    fetch("/api/health")
+      .then((r) => r.json())
+      .then((d) => setApiConfigured(Boolean(d.geminiConfigured)))
+      .catch(() => setApiConfigured(true));
+
     return () => clearInterval(interval);
   }, []);
 
@@ -196,7 +209,20 @@ export default function App() {
 
       {/* Main Core Work Space container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Error Notice Display */}
+        {/* Setup Notice: shown when the Gemini API key is not configured */}
+      {apiConfigured === false && (
+        <div className="bg-amber-950/20 border border-amber-800/60 rounded-xl p-4 flex items-start gap-3 text-sm text-amber-200">
+          <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-semibold font-display text-amber-300">Synthesis engine not configured</h4>
+            <p className="text-xs text-amber-200/80 mt-1 leading-relaxed">
+              Set the <code className="font-mono text-amber-300">GEMINI_API_KEY</code> environment variable to enable live research synthesis. You can still explore the sample briefing below while disconnected.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Error Notice Display */}
         {error && (
           <div className="bg-red-950/20 border border-red-850/60 rounded-xl p-4 flex items-start gap-3 text-sm text-red-200 animate-fade-in">
             <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
@@ -216,7 +242,7 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Form & Archive Control Column */}
           <div className="lg:col-span-1 space-y-6 print:hidden">
-            <ResearchForm onSubmit={handleResearchSubmit} isLoading={isLoading} />
+            <ResearchForm onSubmit={handleResearchSubmit} isLoading={isLoading} initialTopic={initialTopic} />
             <ResearchHistory 
               history={history} 
               activeId={activeBrief?.id || null} 
@@ -276,7 +302,7 @@ export default function App() {
                 </div>
 
                 <div className="text-xs text-slate-500 font-mono pt-4 border-t border-[#1b2a4a] w-full max-w-xl">
-                  INPUT A STRATEGIC TARGET ON THE LEFT COLUMN PROTOCOL INPUT TO BEGIN SYNTHESIS.
+                  Enter a research target in the left column to begin synthesis.
                 </div>
               </div>
             )}

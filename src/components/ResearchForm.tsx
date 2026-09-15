@@ -15,10 +15,11 @@ interface ResearchFormProps {
     context: string;
   }) => void;
   isLoading: boolean;
+  initialTopic?: string;
 }
 
-export default function ResearchForm({ onSubmit, isLoading }: ResearchFormProps) {
-  const [topic, setTopic] = useState("");
+export default function ResearchForm({ onSubmit, isLoading, initialTopic }: ResearchFormProps) {
+  const [topic, setTopic] = useState(initialTopic || "");
   const [industry, setIndustry] = useState(PRESET_INDUSTRIES[0]);
   const [targetAudience, setTargetAudience] = useState(PRESET_AUDIENCES[0]);
   const [depth, setDepth] = useState<"standard" | "deep">("standard");

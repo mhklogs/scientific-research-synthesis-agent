@@ -6,7 +6,8 @@ import { createServer as createViteServer } from "vite";
 
 dotenv.config();
 
-// Initialize Gemini Client
+// Initialize Gemini Client (avoids throwing when the key is not yet configured)
+const hasApiKey = Boolean(process.env.GEMINI_API_KEY);
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
   httpOptions: {
@@ -22,6 +23,11 @@ async function startServer() {
 
   app.use(express.json());
 
+  // Health check so the UI can surface a clear setup hint when the key is missing
+  app.get("/api/health", (_req, res) => {
+    res.json({ ok: true, geminiConfigured: hasApiKey, service: "research-synthesis-agent" });
+  });
+
   // Primary Endpoint: Elite Research and Synthesis API
   app.post("/api/research", async (req, res) => {
     try {
@@ -29,6 +35,13 @@ async function startServer() {
 
       if (!topic || typeof topic !== "string" || topic.trim() === "") {
         return res.status(400).json({ error: "A research topic is required." });
+      }
+
+      if (!hasApiKey) {
+        return res.status(503).json({
+          error: "This instance has not been configured with a Gemini API key yet.",
+          details: "Set the GEMINI_API_KEY environment variable and restart the server to enable research synthesis.",
+        });
       }
 
       const currentLocalTime = new Date().toISOString();
