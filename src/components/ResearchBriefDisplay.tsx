@@ -57,7 +57,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
       <div className="lg:col-span-1 space-y-4 print:hidden">
         <div className="panel p-5 space-y-5">
           <div>
-            <h3 className="font-head font-semibold text-[11px] text-accent uppercase tracking-wider mb-3">
+            <h3 className="font-head font-semibold text-[11px] text-accent  tracking-wider mb-3">
               Briefing identity
             </h3>
             <div className="space-y-3">
@@ -79,7 +79,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
           <hr className="border-line" />
 
           <div>
-            <h3 className="font-head font-semibold text-[11px] text-accent uppercase tracking-wider mb-2.5">
+            <h3 className="font-head font-semibold text-[11px] text-accent  tracking-wider mb-2.5">
               Synthesis metrics
             </h3>
             <div className="grid grid-cols-2 gap-3">
@@ -99,7 +99,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
           <hr className="border-line" />
 
           <div>
-            <h3 className="font-head font-semibold text-[11px] text-accent uppercase tracking-wider mb-2">
+            <h3 className="font-head font-semibold text-[11px] text-accent  tracking-wider mb-2">
               Verification status
             </h3>
             <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
               {copied ? <Check className="w-4 h-4 text-mint" /> : <Copy className="w-4 h-4 text-muted" />}
               {copied ? "Copied" : "Copy markdown"}
             </span>
-            <span className="text-[10px] text-accent/80 font-mono uppercase bg-[#050817] px-1.5 py-0.5 rounded border border-line">CLIPBOARD</span>
+            <span className="text-[10px] text-accent/80 font-mono  bg-[#050817] px-1.5 py-0.5 rounded border border-line">CLIPBOARD</span>
           </button>
           <button
             onClick={handleDownload}
@@ -140,7 +140,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
               <Download className="w-4 h-4 text-muted" />
               Download source (.md)
             </span>
-            <span className="text-[10px] text-accent/80 font-mono uppercase bg-[#050817] px-1.5 py-0.5 rounded border border-line">FILE</span>
+            <span className="text-[10px] text-accent/80 font-mono  bg-[#050817] px-1.5 py-0.5 rounded border border-line">FILE</span>
           </button>
           <button
             onClick={handlePrint}
@@ -150,7 +150,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
               <Printer className="w-4 h-4 text-muted" />
               Print research brief
             </span>
-            <span className="text-[10px] text-accent/80 font-mono uppercase bg-[#050817] px-1.5 py-0.5 rounded border border-line">PRINT</span>
+            <span className="text-[10px] text-accent/80 font-mono  bg-[#050817] px-1.5 py-0.5 rounded border border-line">PRINT</span>
           </button>
           <button
             onClick={handleShare}
@@ -160,7 +160,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
               {shared ? <Check className="w-4 h-4 text-mint" /> : <Share2 className="w-4 h-4 text-muted" />}
               {shared ? "Link copied" : "Share briefing link"}
             </span>
-            <span className="text-[10px] text-accent/80 font-mono uppercase bg-[#050817] px-1.5 py-0.5 rounded border border-line">URL</span>
+            <span className="text-[10px] text-accent/80 font-mono  bg-[#050817] px-1.5 py-0.5 rounded border border-line">URL</span>
           </button>
         </div>
       </div>
@@ -170,7 +170,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
         {/* Document Frame */}
         <div className="panel p-6 md:p-10 relative">
           {/* Subtle Document Grid Guide Header */}
-          <div className="flex items-center justify-between border-b border-line pb-4 mb-6 text-[10px] text-accent/60 font-mono tracking-widest uppercase print:hidden">
+          <div className="flex items-center justify-between border-b border-line pb-4 mb-6 text-[10px] text-accent/60 font-mono tracking-widest  print:hidden">
             <span>Synthesis brief | cited record</span>
             <span>ID: {brief.id.slice(0, 8).toUpperCase()}</span>
           </div>
@@ -185,7 +185,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
             <div className="mt-10 pt-8 border-t border-line print:break-inside-avoid">
               <div className="flex items-center gap-2 mb-4">
                 <Layers className="w-4.5 h-4.5 text-accent" />
-                <h4 className="font-head font-semibold text-xs uppercase tracking-wider text-ink">
+                <h4 className="font-head font-semibold text-xs  tracking-wider text-ink">
                   Grounding sources &amp; empirical citations ({brief.citations.length})
                 </h4>
               </div>
@@ -215,7 +215,7 @@ export default function ResearchBriefDisplay({ brief }: ResearchBriefDisplayProp
           <div className="mt-8 p-3.5 bg-[#050817] border border-amber/30 rounded-lg flex items-start gap-2.5 text-[10px] text-ink-soft leading-relaxed print:hidden">
             <AlertCircle className="w-4 h-4 text-amber shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-amber uppercase">Research advisory:</span> this brief reflects a synthesis of sources grounded as of{" "}
+              <span className="font-semibold text-amber ">Research advisory:</span> this brief reflects a synthesis of sources grounded as of{" "}
               {new Date(brief.timestamp).toLocaleDateString()}. Claims carry confidence labels; cross-check primary literature before final decisions.
             </div>
           </div>

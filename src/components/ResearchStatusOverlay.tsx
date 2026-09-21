@@ -76,7 +76,7 @@ export default function ResearchStatusOverlay({ topic }: ResearchStatusOverlayPr
       <div className="max-w-md">
         <div className="flex items-center justify-center gap-2 mb-2">
           <ResearchSynthLogo size={18} ring={false} />
-          <h3 className="font-head font-semibold text-lg tracking-tight text-ink">Active synthesis pipeline</h3>
+          <h3 className="font-head font-semibold text-lg leading-tight text-ink">Active synthesis pipeline</h3>
         </div>
         <p className="text-xs text-ink-soft mt-1 line-clamp-1">Synthesizing: <span className="italic text-accent-soft">"{topic}"</span></p>
       </div>
@@ -95,7 +95,7 @@ export default function ResearchStatusOverlay({ topic }: ResearchStatusOverlayPr
           className: `w-5 h-5 mt-0.5 shrink-0 p-0.5 rounded border ${RESEARCH_STEPS[currentStep].color}`
         })}
         <div>
-          <span className="text-[10px] uppercase font-bold tracking-wider text-accent block mb-0.5">
+          <span className="text-[10px]  font-bold tracking-wider text-accent block mb-0.5">
             Step {currentStep + 1} of {RESEARCH_STEPS.length}: {RESEARCH_STEPS[currentStep].title}
           </span>
           <p className="text-xs text-ink-soft leading-relaxed">

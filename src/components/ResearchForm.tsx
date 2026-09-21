@@ -80,7 +80,7 @@ export default function ResearchForm({ onSubmit, isLoading, initialTopic }: Rese
 
         {/* Dynamic Suggesters */}
         <div>
-          <span className="block text-[10px] font-mono font-semibold text-muted uppercase tracking-wider mb-2.5">
+          <span className="block text-[10px] font-mono font-semibold text-muted  tracking-wider mb-2.5">
             Suggested high-signal briefings
           </span>
           <div className="grid grid-cols-1 gap-2.5">

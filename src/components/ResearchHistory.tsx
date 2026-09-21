@@ -16,7 +16,7 @@ export default function ResearchHistory({ history, activeId, onSelect, onDelete 
           <BookOpen className="w-5 h-5" />
         </div>
         <div className="space-y-1">
-          <h4 className="font-head font-semibold text-xs uppercase tracking-wider text-ink-soft">No archives found</h4>
+          <h4 className="font-head font-semibold text-xs  tracking-wider text-ink-soft">No archives found</h4>
           <p className="text-xs text-muted max-w-xs mx-auto">
             Your synthesized briefs will reside here once generated.
           </p>
@@ -28,7 +28,7 @@ export default function ResearchHistory({ history, activeId, onSelect, onDelete 
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between px-1">
-        <h3 className="text-[11px] font-mono font-semibold uppercase tracking-widest text-muted">Briefing archive</h3>
+        <h3 className="text-[11px] font-mono font-semibold  tracking-widest text-muted">Briefing archive</h3>
         <span className="text-[10px] font-mono text-ink-soft bg-[#0c1430] border border-line px-1.5 py-0.5 rounded">
           {history.length} Record{history.length !== 1 ? "s" : ""}
         </span>

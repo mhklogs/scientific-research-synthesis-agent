@@ -312,7 +312,7 @@ export default function App() {
                 <span className="block font-display text-sm font-bold tracking-[0.06em] leading-none">
                   RESEARCH<span className="text-accent">SYNTH</span>
                 </span>
-                <span className="mt-1 block truncate font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                <span className="mt-1 block truncate font-mono text-[10px]  tracking-[0.22em] text-muted">
                   cited research synthesis
                 </span>
               </span>
@@ -360,7 +360,7 @@ export default function App() {
                   </a>
                 ))}
               </div>
-              <div className="mt-2 flex items-center gap-2 px-3 pt-3 font-mono text-[10px] uppercase tracking-widest text-muted">
+              <div className="mt-2 flex items-center gap-2 px-3 pt-3 font-mono text-[10px]  tracking-widest text-muted">
                 <span className="pulse-dot flex h-2 w-2 rounded-full bg-accent" />
                 <span>{currentTime}</span>
               </div>
@@ -376,12 +376,12 @@ export default function App() {
             <div className="mx-auto max-w-4xl pb-16 pt-14 text-center md:pb-24 md:pt-24">
               <div className="chip animate-rise inline-flex">
                 <span className="pulse-dot flex h-2 w-2 rounded-full bg-accent" />
-                <span className="font-head font-semibold uppercase tracking-[0.18em] text-ink-soft">
+                <span className="font-head font-semibold  tracking-[0.18em] text-ink-soft">
                   ResearchSynth · the research synthesis agent
                 </span>
               </div>
 
-              <h1 className="animate-rise mx-auto mt-8 max-w-4xl font-display text-4xl uppercase leading-[1.05] tracking-tight text-glow-white md:text-6xl" style={{ animationDelay: "80ms" }}>
+              <h1 className="animate-rise mx-auto mt-8 max-w-4xl font-display text-4xl  leading-[1.05] leading-tight text-glow-white md:text-6xl" style={{ animationDelay: "80ms" }}>
                 From scattered notes to a <span className="text-glow-accent text-accent">cited, confident</span> synthesis
               </h1>
 
@@ -420,7 +420,7 @@ export default function App() {
                 ].map((s) => (
                   <div key={s.label} className="text-center">
                     <p className="font-display text-3xl text-glow-white md:text-4xl">{s.value}</p>
-                    <p className="mt-1 text-[11px] uppercase tracking-[0.22em] text-muted">{s.label}</p>
+                    <p className="mt-1 text-[11px]  tracking-[0.22em] text-muted">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -433,7 +433,7 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10 max-w-3xl">
               <p className="eyebrow text-accent">the synthesizer bench</p>
-              <h2 className="mt-3 font-display text-3xl uppercase tracking-tight md:text-4xl">
+              <h2 className="mt-3 font-display text-3xl  leading-tight md:text-4xl">
                 Paste the pile. Read the synthesis.
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
@@ -504,7 +504,7 @@ export default function App() {
                         <FlaskConical className="h-7 w-7 text-accent" />
                       </span>
                       <div className="max-w-xl space-y-3">
-                        <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink">
+                        <h2 className="font-display text-2xl font-semibold  leading-tight text-ink">
                           Your bench is empty
                         </h2>
                         <p className="text-sm leading-relaxed text-ink-soft">
@@ -517,7 +517,7 @@ export default function App() {
                       <div className="grid w-full max-w-3xl grid-cols-1 gap-5 md:grid-cols-3">
                         <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
                           <Scale className="mb-3 h-5 w-5 text-accent" />
-                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                          <h4 className="mb-1.5 font-head text-xs font-semibold  tracking-wider text-accent-soft">
                             Confidence on every claim
                           </h4>
                           <p className="text-xs leading-relaxed text-ink-soft">
@@ -526,7 +526,7 @@ export default function App() {
                         </div>
                         <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
                           <Layers className="mb-3 h-5 w-5 text-accent" />
-                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                          <h4 className="mb-1.5 font-head text-xs font-semibold  tracking-wider text-accent-soft">
                             Grounded, not hallucinated
                           </h4>
                           <p className="text-xs leading-relaxed text-ink-soft">
@@ -535,7 +535,7 @@ export default function App() {
                         </div>
                         <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
                           <BookOpenCheck className="mb-3 h-5 w-5 text-accent" />
-                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                          <h4 className="mb-1.5 font-head text-xs font-semibold  tracking-wider text-accent-soft">
                             Citations attached
                           </h4>
                           <p className="text-xs leading-relaxed text-ink-soft">
@@ -566,7 +566,7 @@ export default function App() {
                   </span>
                   <div>
                     <p className="eyebrow text-accent">why researchers use it</p>
-                    <h2 className="mt-1 font-display text-2xl uppercase tracking-tight md:text-3xl">
+                    <h2 className="mt-1 font-display text-2xl  leading-tight md:text-3xl">
                       Stop re-reading the pile
                     </h2>
                   </div>
@@ -606,7 +606,7 @@ export default function App() {
         <section id="how" className="scroll-mt-24 border-y border-line/60 bg-abyss py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-center eyebrow text-accent">three steps</p>
-            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl  leading-tight md:text-4xl">
               From notes in to cited brief out
             </h2>
 
@@ -617,7 +617,7 @@ export default function App() {
                     <span className="font-display text-4xl font-bold text-accent/40">{s.n}</span>
                     <ArrowRight className={`h-5 w-5 text-muted ${i < 2 ? "hidden md:block" : "hidden"}`} />
                   </div>
-                  <h3 className="mt-4 font-head text-lg font-semibold uppercase tracking-wide text-ink">{s.title}</h3>
+                  <h3 className="mt-4 font-head text-lg font-semibold  tracking-wide text-ink">{s.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink-soft">{s.text}</p>
                 </div>
               ))}
@@ -629,7 +629,7 @@ export default function App() {
         <section id="reports" className="scroll-mt-24 py-16 md:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-center eyebrow text-mint">from the bench</p>
-            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl  leading-tight md:text-4xl">
               What researchers do with it
             </h2>
 
@@ -653,7 +653,7 @@ export default function App() {
         <section id="faq" className="scroll-mt-24 py-16 md:py-20">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <p className="text-center eyebrow text-amber">straight answers</p>
-            <h2 className="mt-2 text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+            <h2 className="mt-2 text-center font-display text-3xl  leading-tight md:text-4xl">
               Before you ask
             </h2>
 
@@ -676,7 +676,7 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="accent-edge panel mx-auto max-w-4xl p-8 text-center md:p-12">
               <p className="eyebrow text-accent">go publishing</p>
-              <h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl uppercase tracking-tight md:text-5xl">
+              <h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl  leading-tight md:text-5xl">
                 Synthesize your next reference stack tonight
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base">
@@ -710,7 +710,7 @@ export default function App() {
                   <span className="block font-display text-sm font-bold tracking-[0.06em] leading-none">
                     RESEARCH<span className="text-accent">SYNTH</span>
                   </span>
-                  <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                  <span className="mt-1 block font-mono text-[10px]  tracking-[0.22em] text-muted">
                     cited research synthesis
                   </span>
                 </span>
@@ -762,7 +762,7 @@ export default function App() {
             <p className="font-mono text-[11px] text-muted">
               {"\u00A9"} 2026 ResearchSynth — cited research synthesis for working scientists
             </p>
-            <p className="hidden font-mono text-[11px] uppercase tracking-widest text-muted md:block">
+            <p className="hidden font-mono text-[11px]  tracking-widest text-muted md:block">
               {currentTime}
             </p>
           </div>
