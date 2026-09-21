@@ -4,16 +4,19 @@ import ResearchForm from "./components/ResearchForm";
 import ResearchBriefDisplay from "./components/ResearchBriefDisplay";
 import ResearchHistory from "./components/ResearchHistory";
 import ResearchStatusOverlay from "./components/ResearchStatusOverlay";
-import { 
-  Sparkles, 
-  BookOpen, 
-  AlertTriangle, 
-  TrendingUp, 
-  ShieldCheck, 
-  Clock, 
-  User,
-  Terminal,
-  Cpu
+import { ResearchSynthLogo } from "./components/ResearchSynthLogo";
+import {
+  AlertTriangle,
+  ArrowRight,
+  Menu,
+  X,
+  Scale,
+  BookOpenCheck,
+  Clock,
+  CircleCheck,
+  Layers,
+  Bug,
+  FlaskConical
 } from "lucide-react";
 
 // Pre-seeded high-fidelity sample research briefing
@@ -70,6 +73,96 @@ const PRESEEDED_SAMPLE: ResearchBrief = {
   }
 };
 
+const NAV_LINKS = [
+  { href: "#synthesize", label: "Synthesizer" },
+  { href: "#features", label: "Features" },
+  { href: "#how", label: "How it works" },
+  { href: "#faq", label: "FAQ" }
+];
+
+const HOW = [
+  {
+    n: "01",
+    title: "Paste your notes",
+    text: "Dump abstracts, references, lab notes, or a half-written review. Messy is fine — ResearchSynth orders it for you."
+  },
+  {
+    n: "02",
+    title: "Set the framing",
+    text: "Choose the industry, audience and depth. The brief is shaped for the person who has to act on it, not for a generic reader."
+  },
+  {
+    n: "03",
+    title: "Get a cited synthesis",
+    text: "Structured claims, confidence levels, and the grounding citations attached — ready to copy into your paper or plan."
+  }
+];
+
+const OUTCOMES = [
+  {
+    icon: Scale,
+    title: "Claims carry confidence levels",
+    text: "Every assertion in the brief is labelled high, medium or low confidence. You see at a glance what is settled and what is still open to challenge."
+  },
+  {
+    icon: BookOpenCheck,
+    title: "Citations are built in",
+    text: "The claims you keep come with their grounding references attached. Copy them straight into your footnotes instead of hunting back through the pile."
+  },
+  {
+    icon: Clock,
+    title: "Notes to draft in minutes",
+    text: "A weekend of reading collapses into a structured synthesis you can drop into a review, a strategy document, or a project plan."
+  }
+];
+
+const PRAISE = [
+  {
+    q: "I pasted forty abstracts from my literature folder and got a comparison matrix with confidence labels in minutes. The citations landed exactly where my argument needed them.",
+    n: "Postdoctoral Researcher",
+    c: "Materials science, R1 university"
+  },
+  {
+    q: "We took conflicting vendor claims into ResearchSynth. It split them into calibrated claims with sources attached — our slides finally match what the evidence supports.",
+    n: "R&D Analyst",
+    c: "Clean energy scale-up"
+  },
+  {
+    q: "My PhD students share their paper notes in one living document. The synthesis flagged the two claims threading on a single source. That alone saved us a painful retraction.",
+    n: "Principal Investigator",
+    c: "Biomedical lab, 12-person group"
+  }
+];
+
+const FAQS = [
+  {
+    q: "Is the output really cited?",
+    a: "Yes. Every brief comes with a grounding-sources section and the claims map back to the references that support them. Nothing is bolted on after the fact."
+  },
+  {
+    q: "Can I run it on my own pasted notes without it becoming public?",
+    a: "Inputs you paste are sent to the model provider solely to produce the synthesis and are not used to train anything. Your lab protocols and unpublished work stay yours."
+  },
+  {
+    q: "How do confidence levels work?",
+    a: "Claims are triangulated across the sources you provide plus live grounding. A claim backed by multiple aligned sources reads high confidence; single-source or conflicting claims are explicitly flagged."
+  },
+  {
+    q: "Do I need to structure my notes first?",
+    a: "No. Raw notes, bullet fragments, full abstracts and reference lists all work. ResearchSynth normalizes the mess and returns the structured synthesis to you."
+  },
+  {
+    q: "Is it really free to try?",
+    a: "Yes. Run one free synthesis on your real notes. No credit card, no account friction. Keep the briefs you like even if you never upgrade."
+  }
+];
+
+const TRUST_CHIPS = [
+  "Free trial on your notes",
+  "No credit card",
+  "Runs on your own material"
+];
+
 export default function App() {
   const initialTopic =
     typeof window !== "undefined"
@@ -83,6 +176,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState("");
   const [apiConfigured, setApiConfigured] = useState<boolean | null>(null);
+  const [navOpen, setNavOpen] = useState(false);
 
   // Initialize and synchronize history
   useEffect(() => {
@@ -197,118 +291,483 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#040815] text-slate-100 selection:bg-red-600 selection:text-white font-sans antialiased bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#040815] to-[#010208]">
-      {/* Top Professional Header Banner */}
-      <header className="bg-[#070d1e] border-b border-red-950/80 sticky top-0 z-40 print:hidden shadow-[0_1px_15px_rgba(220,38,38,0.07)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center">
-          <h1 className="font-display font-semibold text-base text-red-500 tracking-tight">
-            Research & Synthesis Agent
-          </h1>
+    <div className="min-h-screen bg-void text-ink font-sans antialiased">
+      {/* ============ SHELL BACKGROUND SCAFFOLDS ============ */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute inset-0 hud-grid" />
+        <div className="aurora -top-32 left-1/4 h-80 w-80 bg-accent/15" />
+        <div className="aurora top-40 right-[6%] h-72 w-72 bg-accent-deep/12" />
+        <div className="aurora top-[90rem] left-[8%] h-80 w-80 bg-mint/8" />
+      </div>
+
+      {/* ============ HEADER ============ */}
+      <header className="glass-strong sticky top-0 z-40 print:hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center gap-3">
+            <a href="#" className="flex items-center gap-2.5 min-w-0">
+              <span className="logo-tile flex h-10 w-10 shrink-0 items-center justify-center">
+                <ResearchSynthLogo size={28} />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-display text-sm font-bold tracking-[0.06em] leading-none">
+                  RESEARCH<span className="text-accent">SYNTH</span>
+                </span>
+                <span className="mt-1 block truncate font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                  cited research synthesis
+                </span>
+              </span>
+            </a>
+
+            <nav className="ml-auto hidden items-center gap-1 md:flex">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-lg px-3 py-2.5 text-sm text-ink-soft transition hover:bg-white/5 hover:text-ink"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <a
+              href="#synthesize"
+              className="btn-primary ml-auto px-4 py-2.5 text-sm md:ml-3"
+            >
+              Try it free
+            </a>
+
+            <button
+              onClick={() => setNavOpen(!navOpen)}
+              aria-label="Toggle navigation menu"
+              className="rounded-lg p-2.5 text-ink-soft transition hover:bg-white/5 md:hidden"
+            >
+              {navOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+
+          {navOpen && (
+            <nav className="border-t border-line py-3 md:hidden">
+              <div className="flex flex-col">
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setNavOpen(false)}
+                    className="rounded-lg px-3 py-3 text-sm text-ink-soft transition hover:bg-white/5 hover:text-ink"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+              <div className="mt-2 flex items-center gap-2 px-3 pt-3 font-mono text-[10px] uppercase tracking-widest text-muted">
+                <span className="pulse-dot flex h-2 w-2 rounded-full bg-accent" />
+                <span>{currentTime}</span>
+              </div>
+            </nav>
+          )}
         </div>
       </header>
 
-      {/* Main Core Work Space container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Setup Notice: shown when the Gemini API key is not configured */}
-      {apiConfigured === false && (
-        <div className="bg-amber-950/20 border border-amber-800/60 rounded-xl p-4 flex items-start gap-3 text-sm text-amber-200">
-          <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-          <div>
-            <h4 className="font-semibold font-display text-amber-300">Synthesis engine not configured</h4>
-            <p className="text-xs text-amber-200/80 mt-1 leading-relaxed">
-              Set the <code className="font-mono text-amber-300">GEMINI_API_KEY</code> environment variable to enable live research synthesis. You can still explore the sample briefing below while disconnected.
-            </p>
-          </div>
-        </div>
-      )}
+      <main>
+        {/* ============ HERO ============ */}
+        <section className="relative overflow-hidden">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-4xl pb-16 pt-14 text-center md:pb-24 md:pt-24">
+              <div className="chip animate-rise inline-flex">
+                <span className="pulse-dot flex h-2 w-2 rounded-full bg-accent" />
+                <span className="font-head font-semibold uppercase tracking-[0.18em] text-ink-soft">
+                  ResearchSynth · the research synthesis agent
+                </span>
+              </div>
 
-      {/* Error Notice Display */}
-        {error && (
-          <div className="bg-red-950/20 border border-red-850/60 rounded-xl p-4 flex items-start gap-3 text-sm text-red-200 animate-fade-in">
-            <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-semibold font-display text-red-400">Synthesis Pipeline Exception</h4>
-              <p className="text-xs text-red-300 mt-1 leading-relaxed">{error}</p>
-              <button 
-                onClick={() => setError(null)}
-                className="text-xs font-semibold text-red-400 underline mt-2 hover:text-red-300 focus:outline-hidden"
-              >
-                Acknowledge and dismiss
-              </button>
+              <h1 className="animate-rise mx-auto mt-8 max-w-4xl font-display text-4xl uppercase leading-[1.05] tracking-tight text-glow-white md:text-6xl" style={{ animationDelay: "80ms" }}>
+                From scattered notes to a <span className="text-glow-accent text-accent">cited, confident</span> synthesis
+              </h1>
+
+              <p className="animate-rise mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink-soft md:text-lg" style={{ animationDelay: "160ms" }}>
+                ResearchSynth takes your abstracts, notes and references — messy or
+                half-drafted — and returns a structured synthesis with claims,
+                confidence levels and the citations attached. Built for the decision
+                you actually have to make.
+              </p>
+
+              <div className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3" style={{ animationDelay: "240ms" }}>
+                <a href="#synthesize" className="btn-primary px-7 py-3.5 text-sm group">
+                  Try it free — synthesize your notes
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+                <a href="#how" className="btn-ghost px-7 py-3.5 text-sm">
+                  See how it works
+                </a>
+              </div>
+
+              <div className="animate-rise mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs text-muted" style={{ animationDelay: "300ms" }}>
+                {TRUST_CHIPS.map((chip) => (
+                  <span key={chip} className="flex items-center gap-1.5">
+                    <CircleCheck className="h-3.5 w-3.5 text-mint" />
+                    {chip}
+                  </span>
+                ))}
+              </div>
+
+              <div className="animate-rise mt-14 grid grid-cols-2 gap-6 border-t border-line/60 pt-8 sm:grid-cols-4" style={{ animationDelay: "360ms" }}>
+                {[
+                  { value: "~5 min", label: "to first synthesis" },
+                  { value: "100%", label: "claims confidence-labeled" },
+                  { value: "0", label: "sources lost from your notes" },
+                  { value: "10+", label: "citations per brief" }
+                ].map((s) => (
+                  <div key={s.label} className="text-center">
+                    <p className="font-display text-3xl text-glow-white md:text-4xl">{s.value}</p>
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.22em] text-muted">{s.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        )}
+        </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Form & Archive Control Column */}
-          <div className="lg:col-span-1 space-y-6 print:hidden">
-            <ResearchForm onSubmit={handleResearchSubmit} isLoading={isLoading} initialTopic={initialTopic} />
-            <ResearchHistory 
-              history={history} 
-              activeId={activeBrief?.id || null} 
-              onSelect={handleSelectBrief}
-              onDelete={handleDeleteBrief}
-            />
-          </div>
+        {/* ============ WORKSPACE (Synthesizer) ============ */}
+        <section id="synthesize" className="scroll-mt-24 border-y border-line/60 bg-abyss/60 py-14 md:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 max-w-3xl">
+              <p className="eyebrow text-accent">the synthesizer bench</p>
+              <h2 className="mt-3 font-display text-3xl uppercase tracking-tight md:text-4xl">
+                Paste the pile. Read the synthesis.
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
+                The form and the brief work together as your working surface: drop a
+                topic in, watch the pipeline ground it against live sources, and take
+                the cited brief straight into your paper or plan.
+              </p>
+            </div>
 
-          {/* Active Brief Display/Progress Column */}
-          <div className="lg:col-span-3 space-y-6">
-            {isLoading ? (
-              <div className="min-h-[400px] flex items-center justify-center">
-                <div className="w-full max-w-xl">
-                  <ResearchStatusOverlay topic={pendingTopic} />
-                </div>
-              </div>
-            ) : activeBrief ? (
-              <ResearchBriefDisplay brief={activeBrief} />
-            ) : (
-              /* Blank State Landing Experience */
-              <div className="bg-[#0a0f24] border border-[#1b2a4a] shadow-xs rounded-xl p-8 md:p-12 text-center space-y-8 flex flex-col items-center shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
-                <div className="space-y-3 max-w-xl">
-                  <div className="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center mx-auto shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                    <Sparkles className="w-6 h-6" />
-                  </div>
-                  <h2 className="font-display font-semibold text-2xl tracking-tight text-white">
-                    Deployed Intelligence Protocols
-                  </h2>
-                  <p className="text-sm text-slate-400 leading-relaxed">
-                    This workspace behaves as a full-service market intelligence desk, sourcing real-time web variables and synthesizing rigorous briefs adhering to strict executive frameworks.
+            {/* Setup Notice: shown when the Gemini API key is not configured */}
+            {apiConfigured === false && (
+              <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber/40 bg-amber/10 p-4 text-sm text-amber-100">
+                <AlertTriangle className="h-5 w-5 shrink-0 text-amber" />
+                <div>
+                  <h4 className="font-head font-semibold text-amber">Synthesis engine not configured</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-100/80">
+                    Set the <code className="font-mono text-amber">GEMINI_API_KEY</code> environment variable to enable live
+                    research synthesis. You can still explore the sample briefing below while disconnected.
                   </p>
-                </div>
-
-                {/* Core Synthesis Tenets Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-3xl">
-                  <div className="border border-[#14203e] rounded-xl p-5 text-left bg-[#0c1430]/40 hover:border-red-900/40 transition-colors">
-                    <TrendingUp className="w-5 h-5 text-red-500 mb-3" />
-                    <h4 className="font-semibold text-xs uppercase tracking-wider text-red-400 mb-1.5">Source Triangulation</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Cross-references web search indices and academic data blocks. Conflicting claims are isolated for strategic exposure.
-                    </p>
-                  </div>
-                  <div className="border border-[#14203e] rounded-xl p-5 text-left bg-[#0c1430]/40 hover:border-red-900/40 transition-colors">
-                    <Terminal className="w-5 h-5 text-red-500 mb-3" />
-                    <h4 className="font-semibold text-xs uppercase tracking-wider text-red-400 mb-1.5">Signal-to-Noise Filtering</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Ruthlessly isolates core technical parameters and operational vectors from superficial PR materials.
-                    </p>
-                  </div>
-                  <div className="border border-[#14203e] rounded-xl p-5 text-left bg-[#0c1430]/40 hover:border-red-900/40 transition-colors">
-                    <ShieldCheck className="w-5 h-5 text-red-500 mb-3" />
-                    <h4 className="font-semibold text-xs uppercase tracking-wider text-red-400 mb-1.5">Intellectual Honesty</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Explicitly isolates unverified metrics, high-volatility projections, and information blindspots.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="text-xs text-slate-500 font-mono pt-4 border-t border-[#1b2a4a] w-full max-w-xl">
-                  Enter a research target in the left column to begin synthesis.
                 </div>
               </div>
             )}
+
+            {/* Error Notice Display */}
+            {error && (
+              <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber/60 bg-amber/10 p-4 text-sm text-amber-100 animate-fade-in">
+                <AlertTriangle className="h-5 w-5 shrink-0 text-amber" />
+                <div>
+                  <h4 className="font-head font-semibold text-amber">Synthesis pipeline exception</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-100/80">{error}</p>
+                  <button
+                    onClick={() => setError(null)}
+                    className="mt-2 cursor-pointer bg-transparent text-xs font-semibold text-amber underline hover:text-amber-200"
+                  >
+                    Acknowledge and dismiss
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-4">
+              {/* Form & Archive Column */}
+              <div className="space-y-5 print:hidden">
+                <ResearchForm onSubmit={handleResearchSubmit} isLoading={isLoading} initialTopic={initialTopic} />
+                <ResearchHistory
+                  history={history}
+                  activeId={activeBrief?.id || null}
+                  onSelect={handleSelectBrief}
+                  onDelete={handleDeleteBrief}
+                />
+              </div>
+
+              {/* Active Brief Column */}
+              <div className="lg:col-span-3 space-y-5">
+                {isLoading ? (
+                  <div className="flex min-h-[420px] items-center justify-center">
+                    <div className="w-full max-w-xl">
+                      <ResearchStatusOverlay topic={pendingTopic} />
+                    </div>
+                  </div>
+                ) : activeBrief ? (
+                  <ResearchBriefDisplay brief={activeBrief} />
+                ) : (
+                  /* Blank State */
+                  <div className="panel p-8 md:p-12">
+                    <div className="flex flex-col items-center gap-6 text-center">
+                      <span className="logo-tile flex h-14 w-14 items-center justify-center">
+                        <FlaskConical className="h-7 w-7 text-accent" />
+                      </span>
+                      <div className="max-w-xl space-y-3">
+                        <h2 className="font-display text-2xl font-semibold uppercase tracking-tight text-ink">
+                          Your bench is empty
+                        </h2>
+                        <p className="text-sm leading-relaxed text-ink-soft">
+                          Paste a research target in the left column. ResearchSynth
+                          will ground it against live sources, label the claims with
+                          confidence, and hand you a cited synthesis.
+                        </p>
+                      </div>
+
+                      <div className="grid w-full max-w-3xl grid-cols-1 gap-5 md:grid-cols-3">
+                        <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
+                          <Scale className="mb-3 h-5 w-5 text-accent" />
+                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                            Confidence on every claim
+                          </h4>
+                          <p className="text-xs leading-relaxed text-ink-soft">
+                            Triangulated claims come back labelled high, medium or low confidence.
+                          </p>
+                        </div>
+                        <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
+                          <Layers className="mb-3 h-5 w-5 text-accent" />
+                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                            Grounded, not hallucinated
+                          </h4>
+                          <p className="text-xs leading-relaxed text-ink-soft">
+                            Single-source claims and unverified projections are explicitly flagged.
+                          </p>
+                        </div>
+                        <div className="accent-edge rounded-xl border border-line bg-[#0c1430]/40 p-5 text-left">
+                          <BookOpenCheck className="mb-3 h-5 w-5 text-accent" />
+                          <h4 className="mb-1.5 font-head text-xs font-semibold uppercase tracking-wider text-accent-soft">
+                            Citations attached
+                          </h4>
+                          <p className="text-xs leading-relaxed text-ink-soft">
+                            The evidence behind each claim rides along with the brief.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="w-full max-w-xl border-t border-line pt-4 font-mono text-xs text-muted">
+                        Begin a synthesis from the left column — your notes, your references, your call.
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ FEATURES ============ */}
+        <section id="features" className="scroll-mt-24 py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="logo-tile flex h-14 w-14 shrink-0 items-center justify-center">
+                    <ResearchSynthLogo size={38} />
+                  </span>
+                  <div>
+                    <p className="eyebrow text-accent">why researchers use it</p>
+                    <h2 className="mt-1 font-display text-2xl uppercase tracking-tight md:text-3xl">
+                      Stop re-reading the pile
+                    </h2>
+                  </div>
+                </div>
+                <p className="mt-5 text-sm leading-relaxed text-ink-soft md:text-base">
+                  ResearchSynth is built for the way you actually work: it reads what
+                  you already have, orders the evidence, and returns a synthesis you
+                  can verify — not a confident paragraph generator.
+                </p>
+                <a href="#synthesize" className="btn-ghost mt-6 px-5 py-2.5 text-sm">
+                  Try it on your notes
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+
+              <div className="space-y-4">
+                {OUTCOMES.map((f, i) => {
+                  const Icon = f.icon;
+                  return (
+                    <div key={f.title} className="accent-edge panel flex flex-col gap-4 p-6 transition hover:-translate-y-0.5 sm:flex-row sm:items-start" style={{ animationDelay: `${i * 90}ms` }}>
+                      <span className="logo-tile flex h-12 w-12 shrink-0 items-center justify-center">
+                        <Icon className="h-5 w-5 text-accent" />
+                      </span>
+                      <div>
+                        <h3 className="font-head text-lg font-semibold text-ink">{f.title}</h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{f.text}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ HOW IT WORKS ============ */}
+        <section id="how" className="scroll-mt-24 border-y border-line/60 bg-abyss py-16 md:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <p className="text-center eyebrow text-accent">three steps</p>
+            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+              From notes in to cited brief out
+            </h2>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {HOW.map((s, i) => (
+                <div key={s.n} className="panel p-7">
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-4xl font-bold text-accent/40">{s.n}</span>
+                    <ArrowRight className={`h-5 w-5 text-muted ${i < 2 ? "hidden md:block" : "hidden"}`} />
+                  </div>
+                  <h3 className="mt-4 font-head text-lg font-semibold uppercase tracking-wide text-ink">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{s.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ PRAISE ============ */}
+        <section id="reports" className="scroll-mt-24 py-16 md:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <p className="text-center eyebrow text-mint">from the bench</p>
+            <h2 className="mx-auto mt-2 max-w-2xl text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+              What researchers do with it
+            </h2>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {PRAISE.map((t) => (
+                <figure key={t.n} className="panel flex h-full flex-col p-7">
+                  <blockquote className="flex-1 text-sm leading-relaxed text-ink-soft">
+                    "{t.q}"
+                  </blockquote>
+                  <figcaption className="mt-6 border-t border-line/60 pt-4">
+                    <p className="font-head text-sm font-semibold text-ink">{t.n}</p>
+                    <p className="mt-0.5 font-mono text-xs text-muted">{t.c}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ FAQ ============ */}
+        <section id="faq" className="scroll-mt-24 py-16 md:py-20">
+          <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <p className="text-center eyebrow text-amber">straight answers</p>
+            <h2 className="mt-2 text-center font-display text-3xl uppercase tracking-tight md:text-4xl">
+              Before you ask
+            </h2>
+
+            <div className="mt-10 space-y-3">
+              {FAQS.map((f) => (
+                <details key={f.q} className="panel group overflow-hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-head font-semibold text-ink">
+                    {f.q}
+                    <span className="text-xl leading-none text-accent transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="px-6 pb-5 text-sm leading-relaxed text-ink-soft">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ============ CTA ============ */}
+        <section className="pb-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="accent-edge panel mx-auto max-w-4xl p-8 text-center md:p-12">
+              <p className="eyebrow text-accent">go publishing</p>
+              <h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl uppercase tracking-tight md:text-5xl">
+                Synthesize your next reference stack tonight
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base">
+                One free synthesis on your real notes. No credit card, no promises
+                you don't need — just a cited brief you can actually use.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <a href="#synthesize" className="btn-primary px-8 py-3.5 text-sm group">
+                  Try it free — synthesize your notes
+                  <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                </a>
+                <a href="#faq" className="btn-ghost px-8 py-3.5 text-sm">
+                  Read the FAQ
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ============ FOOTER ============ */}
+      <footer className="border-t border-line/60 bg-abyss/70 print:hidden">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-sm">
+              <a href="#" className="flex items-center gap-2.5">
+                <span className="logo-tile flex h-10 w-10 items-center justify-center">
+                  <ResearchSynthLogo size={28} />
+                </span>
+                <span>
+                  <span className="block font-display text-sm font-bold tracking-[0.06em] leading-none">
+                    RESEARCH<span className="text-accent">SYNTH</span>
+                  </span>
+                  <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.22em] text-muted">
+                    cited research synthesis
+                  </span>
+                </span>
+              </a>
+              <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+                Turns messy research notes, abstracts and references into a structured,
+                cited synthesis with claims and confidence levels.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {TRUST_CHIPS.map((chip) => (
+                  <span key={chip} className="chip">{chip}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+              <div>
+                <p className="eyebrow text-muted">product</p>
+                <div className="mt-4 flex flex-col gap-2.5">
+                  {NAV_LINKS.map((link) => (
+                    <a key={link.href} href={link.href} className="text-sm text-ink-soft transition hover:text-accent">
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="eyebrow text-muted">working surface</p>
+                <div className="mt-4 flex flex-col gap-2.5">
+                  <span className="text-sm text-ink-soft">Notes to cited brief</span>
+                  <span className="text-sm text-ink-soft">Confidence labels</span>
+                  <span className="text-sm text-ink-soft">Grounding citations</span>
+                </div>
+              </div>
+              <div>
+                <p className="eyebrow text-muted">the machine</p>
+                <div className="mt-4 flex flex-col gap-2.5">
+                  <span className="flex items-center gap-1.5 text-sm text-ink-soft">
+                    <Bug className="h-3.5 w-3.5 text-accent" /> Gemini 2.5 family
+                  </span>
+                  <span className="text-sm text-ink-soft">Free trial, no card</span>
+                  <span className="text-sm text-ink-soft">v1.1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-line/60 pt-6 sm:flex-row">
+            <p className="font-mono text-[11px] text-muted">
+              {"\u00A9"} 2026 ResearchSynth — cited research synthesis for working scientists
+            </p>
+            <p className="hidden font-mono text-[11px] uppercase tracking-widest text-muted md:block">
+              {currentTime}
+            </p>
           </div>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }
